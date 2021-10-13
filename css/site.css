@@ -78,3 +78,11 @@ main>.container {
     bottom: 0;
     width: 100%;
 }
+
+.form-entry {
+    background-color: lightgray;
+}
+
+thead {
+    color: #0a71b8;
+}
