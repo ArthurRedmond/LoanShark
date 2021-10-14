@@ -86,3 +86,20 @@ main>.container {
 thead {
     color: #0a71b8;
 }
+
+.output {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+}
+
+.output-heading {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: larger;
+}
+
+.output-payment {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 2em;
+}
