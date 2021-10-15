@@ -92,6 +92,11 @@ thead {
     font-weight: 400;
 }
 
+.output-cost {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+}
+
 .output-heading {
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
@@ -100,6 +105,8 @@ thead {
 
 .output-payment {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
+    font-weight: bold;
     font-size: 2em;
+    justify-content: center;
+    margin-bottom: auto;
 }
