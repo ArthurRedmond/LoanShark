@@ -53,21 +53,101 @@
     <!-- ==== Main Section === -->
     <main class="flex-shrink-0">
         <div class="container py-5 px-5">
-            <h2 class="border-1 border-bottom border-dark mt-5">The Code for APP NAME</h2>
+            <h2 class="border-1 border-bottom border-dark mt-5">The Code for Loan Shark</h2>
             <div class="row row-cols-1 row-cols-lg-2">
                 <div class="col-lg-8">
                     <pre class="line-numbers"><code class="language-javascript">
-                        //Call HelloWorld 
-                        function HelloWorld() {
-                            alert("Hello World");
+                        function getValues() {
+                            let loanAmount = document.getElementById("loanAmt").value;
+                            let numberOfPayments = document.getElementById("numPayments").value;
+                            let interestRate = document.getElementById("interestRate").value;
+                        
+                            loanAmount = parseFloat(loanAmount);
+                            numberOfPayments = parseFloat(numberOfPayments);
+                            interestRate = parseFloat(interestRate);
+                        
+                            if (!Number.isNaN(loanAmount) && !Number.isNaN(numberOfPayments) && !Number.isNaN(interestRate)) {
+                                let loanArray = calculateValues(loanAmount, numberOfPayments, interestRate);
+                                displayResults(loanArray);
+                            } else {
+                                alert("You must enter valid numbers");
+                            }
+                        }
+                        
+                        function calculateValues(loanAmount, numberOfPayments, interestRate) {
+                            let returnArray = [];
+                            let remainingBalance = loanAmount;
+                            let totalInterestPaid = 0;
+                        
+                            for (let i = 1; i <= numberOfPayments; i++) {
+                                returnArray.push(i);
+                        
+                                let monthlyPayment = (loanAmount * ((interestRate / 1200) / (1 - Math.pow(1 + (interestRate / 1200), (numberOfPayments * -1)))));
+                                returnArray.push(monthlyPayment);
+                        
+                                let interestPaid = remainingBalance * (interestRate / 1200);
+                                let principalPaid = monthlyPayment - interestPaid
+                        
+                                returnArray.push(principalPaid);
+                        
+                                returnArray.push(interestPaid);
+                        
+                                totalInterestPaid += interestPaid;
+                                returnArray.push(totalInterestPaid);
+                        
+                                remainingBalance -= principalPaid;
+                                returnArray.push(remainingBalance);
+                            }
+                        
+                            document.getElementById("monthlyPayment").classList.add("output-payment");
+                            document.getElementById("monthlyPayment").innerHTML = `$${returnArray[1].toFixed(2)}`;
+                            document.getElementById("totalPrincipal").innerHTML = `$${loanAmount}`;
+                            document.getElementById("totalInterest").innerHTML = `$${totalInterestPaid.toFixed(2)}`;
+                            let totalCost = totalInterestPaid + loanAmount;
+                            document.getElementById("totalCost").innerHTML = `$${totalCost.toFixed(2)}`;
+                        
+                            return returnArray;
+                        }
+                        
+                        function displayResults(loanArray) {
+                            let tableBody = document.getElementById("results");
+                            let templateRow = document.getElementById("outputTemplate");
+                            tableBody.innerHTML = "";
+                        
+                            for (let index = 0; index < loanArray.length; index += 6) {
+                        
+                                let tableRow = document.importNode(templateRow.content, true);
+                                let rowCols = tableRow.querySelectorAll("td");
+                        
+                                rowCols[0].textContent = loanArray[index];
+                                rowCols[1].textContent = loanArray[index + 1].toFixed(2);
+                                rowCols[2].textContent = loanArray[index + 2].toFixed(2);
+                                rowCols[3].textContent = loanArray[index + 3].toFixed(2);
+                                rowCols[4].textContent = loanArray[index + 4].toFixed(2);
+                                rowCols[5].textContent = loanArray[index + 5].toFixed(2);
+                        
+                                tableBody.appendChild(tableRow);
+                            }
                         }
                     </code>
                     </pre>
                 </div>
                 <div class="col-lg-4">
-                    <p>The Code is structed in one function.</p>
-                    <h5>Hello World</h5>
-                    <p>Hello World is a function that displays an alert with a message of "Hello World"</p>
+                    <p>The Code is structed into three function.</p>
+                    <h5>getValues()</h5>
+                    <p>This function declares variables to hold the user enter data from the page’s form. It validates
+                        the values by parsing them and if they’re not valid it alerts the user. Otherwise, it passes the
+                        values to the calculateValues() function and passes the returned array to the displayResults()
+                        function.</p>
+                    <h5>calculateValues()</h5>
+                    <p>This function declares variables to track the remaining balance and interest paid. It loops
+                        through the number of payments entered by the user and calculates the monthly payment, updates
+                        the interest and principal paid, and stores it in an array. It takes these numbers and updates
+                        the document, finally returning the array with the stored data.</p>
+                    <h5>displayResults()</h5>
+                    <p>This function receives the array of values to be entered into the table. It retrieves the
+                        template from the document and loops through the array six indexes at a time. It inserts the
+                        values into the snippets and appends them to the table body.</p>
                 </div>
             </div>
         </div>
